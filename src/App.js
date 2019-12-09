@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import LoginRegisterForm from './LoginRegisterForm'
-// import SearchAddBuildingForm from './SearchAddBuildingForm'
 import SearchAddBuildingForm from './SearchAddBuildingForm'
 
 class App extends React.Component{
@@ -15,7 +14,8 @@ class App extends React.Component{
 			createModalOpen:false,
 			newAddress: {
 				address: ''
-			}
+			}, 
+			foundAddress: null
 		}
 	}
 
@@ -63,7 +63,7 @@ class App extends React.Component{
 			console.log(parsedRegisterResponse);
 		}
 	}
-
+	// ADD BUILDING ADDRESS -----------------------------------
 	addBuilding = async (e) => {
 		e.preventDefault();
 		console.log("we're sending this");
@@ -106,6 +106,53 @@ class App extends React.Component{
 			}
 		})
 	}
+// SEARCH FOR AN ADDRESS ------------------
+	searchForAddress = async () => {
+		console.log("this is searchForAddress being called!");
+		console.log("this is my state ", this.state.newAddress.address);
+		try {
+			const foundAddress = await fetch(
+				process.env.REACT_APP_API_URL + '/building/search',
+				{
+					method: 'POST',
+					credentials: 'include',
+					body: JSON.stringify(this.state.newAddress),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+
+			const parsedResponse = await foundAddress.json()
+			console.log("this is my response for searchForAddress function ", parsedResponse);
+			this.setState({
+				foundAddress: parsedResponse
+			})
+
+		} catch(err){
+			console.log(err)
+		}
+	}
+
+	// Add user to building --------------------
+	addUser = async () => {
+
+		try {
+			const addingUser = await fetch(
+				process.env.REACT_APP_API_URL + `/users/${this.state.foundAddress._id}`,
+				{
+					method: 'PUT',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json'
+				}
+			})
+			const parsedResponse = await addingUser.json()
+			console.log(parsedResponse)
+
+		} catch(err){
+			console.log(err)
+		}
+	}
 
 	logout = async (loginInfo) => {
 		this.setState({
@@ -134,12 +181,13 @@ class App extends React.Component{
 	    			this.state.loggedInUser
 	    			?
 	    			<SearchAddBuildingForm 
-
+	    				searchForAddress={this.searchForAddress}
 	    				open={this.state.createModalOpen}
 	    				addBuilding={this.addBuilding}
 	    				handleCreateChange={this.handleCreateChange}
 	    			 	closeModal={this.closeModal} 
 	    			 	address={this.state.newAddress.address}
+	    			 	addUser={this.addUser}
 	    			/>
 	    			:
 	    			<LoginRegisterForm login={this.login} register={this.register} />
