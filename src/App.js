@@ -16,7 +16,8 @@ class App extends React.Component{
 			newAddress: {
 				address: ''
 			}, 
-			foundAddress: null
+			foundAddress: null,
+			usersBuilding: null
 		}
 	}
 
@@ -32,15 +33,15 @@ class App extends React.Component{
 		const parsedLoginResponse = await response.json()
 		console.log(parsedLoginResponse);
 	
-		if(response.status === 201){
+		if (response.status === 201) {
 			this.setState({
 				loggedIn: true,
 				loggedInUser: parsedLoginResponse.data
 			})	
-			console.log(parsedLoginResponse)
-		} else{
-			console.log("parsedLoginResponse in else in login");
-			console.log(parsedLoginResponse)
+		// 	console.log(parsedLoginResponse)
+		// } else{
+		// 	console.log("parsedLoginResponse in else in login");
+		// 	console.log(parsedLoginResponse)
 			
 		}
 	}
@@ -152,6 +153,9 @@ class App extends React.Component{
 			})
 			const parsedResponse = await addingUser.json()
 			console.log(parsedResponse)
+			this.setState({
+				usersBuilding: parsedResponse.data
+			})
 
 		} catch(err){
 			console.log(err)
@@ -178,7 +182,7 @@ class App extends React.Component{
 		return(
 	    	<div className="App">
 	    		{
-	    			this.state.loggedInUser	
+	    			this.state.loggedIn	
 	    			?
 	    			<SearchAddBuildingForm 
 	    				searchForAddress={this.searchForAddress}
@@ -190,7 +194,6 @@ class App extends React.Component{
 	    			 	addUser={this.addUser}
 	    			 	logout={this.logout}
 	    			/>
-	    			// <PostContainer /> 
 	    			:
 	    			<LoginRegisterForm 
 	    			login={this.login} 

@@ -11,6 +11,7 @@ import {
 	Image
 } from "semantic-ui-react";
 import PostContainer from '../PostContainer'
+import PostList from '../PostList'
 
 class SearchAddBuildingForm extends React.Component {
 	constructor() {
@@ -141,7 +142,7 @@ class SearchAddBuildingForm extends React.Component {
 					</small>
 				)}
 			</Modal>
-			<SearchAddBuildingForm logout={this.props.logout}/>
+			<PostContainer/>
 			</div>
 		);
 	}

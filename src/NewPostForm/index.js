@@ -23,6 +23,7 @@ class CreatePost extends Component {
 				<Form size='tiny'onSubmit={(e) => this.props.addPost(e, this.state)}>
 					<Label>Text: </Label>
 					<Form.Input type='text' name='text' value={this.state.text} onChange={this.handleChange}/>
+					<Button type='submit' color='blue'>Create Post</Button>
 				</Form>
 			</Segment>
 			</div>
