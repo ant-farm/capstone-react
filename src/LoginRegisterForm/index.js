@@ -57,6 +57,8 @@ class LoginRegisterForm extends React.Component{
 		}
 	}
 
+ 
+
 	render() {
     return(
 
@@ -76,17 +78,9 @@ class LoginRegisterForm extends React.Component{
           {
             this.state.action === "register"
             ?
-            
+         
             <React.Fragment>
-              <Form.Input 
-                icon='user'
-                iconPosition='left'
-                placeholder='Username'
-                type="text" 
-                name="Username" 
-                value={this.state.username}
-                onChange={this.handleChange}
-              />
+
               <Form.Input 
                 icon='user'
                 iconPosition='left'
@@ -114,19 +108,9 @@ class LoginRegisterForm extends React.Component{
                 value={this.state.email}
                 onChange={this.handleChange}
               />
-              <Form.Input 
-                icon="user"
-                iconPosition='left'
-                placeholder='Password'
-                type="text" 
-                name="password" 
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-
 
             </React.Fragment>
-           
+
             :
             null
           }

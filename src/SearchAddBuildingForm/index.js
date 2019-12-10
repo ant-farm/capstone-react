@@ -10,6 +10,7 @@ import {
 	Segment,
 	Image
 } from "semantic-ui-react";
+import PostContainer from '../PostContainer'
 
 class SearchAddBuildingForm extends React.Component {
 	constructor() {
@@ -56,9 +57,14 @@ class SearchAddBuildingForm extends React.Component {
 		this.searchAdd();
 	};
 
+	handleClick = e => {
+		console.log("trying to close modal")
+		this.props.closeModal()
+	}
+
 	render() {
-		return (
-			<Modal open={true} closeIcon onClose={this.props.closeModal}>
+		return (<div>
+			<Modal open={this.props.open} closeIcon onClose={this.handleClick}>
 				{this.state.action === "search" ? (
 					<Modal.Content>
 						<Modal.Description>
@@ -85,7 +91,7 @@ class SearchAddBuildingForm extends React.Component {
 							>
 								Cancel
 							</Button>
-							<Button color="blue" onClick={this.props.addUser}>
+							<Button color="blue" onClick={this.props.addUser} onClick={this.props.closeModal}>
 								Add yourself
 							</Button>
 						</Modal.Description>
@@ -116,6 +122,9 @@ class SearchAddBuildingForm extends React.Component {
 									/>
 								</Modal.Actions>
 							</Form>
+							<Button color="blue" onClick={this.props.addUser}>
+								Add yourself
+							</Button>
 						</Modal.Description>
 					</Modal.Content>
 				)}
@@ -132,6 +141,8 @@ class SearchAddBuildingForm extends React.Component {
 					</small>
 				)}
 			</Modal>
+			<SearchAddBuildingForm logout={this.props.logout}/>
+			</div>
 		);
 	}
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import LoginRegisterForm from './LoginRegisterForm'
 import SearchAddBuildingForm from './SearchAddBuildingForm'
+import PostContainer from './PostContainer'
+
 
 class App extends React.Component{
 	constructor(){
@@ -10,8 +12,7 @@ class App extends React.Component{
 			addresses: [],
 			loggedIn: false,
 			loggedInUser: null,
-			showModalOpen: false,
-			createModalOpen:false,
+			modalOpen:false,
 			newAddress: {
 				address: ''
 			}, 
@@ -53,10 +54,13 @@ class App extends React.Component{
 			}
 		})
 		const parsedRegisterResponse = await response.json()
+		console.log("parsedRegisterResponse")
+		console.log(parsedRegisterResponse)
 		if(parsedRegisterResponse.status.code === 201){
 			this.setState({
 				loggedIn: true,
-				loggedInUser: parsedRegisterResponse.data
+				loggedInUser: parsedRegisterResponse.data,
+				modalOpen: true
 			})
 		} else{
 			console.log('Register Failed')
@@ -160,17 +164,13 @@ class App extends React.Component{
 		})
 	}
 
-	showModalOpen = () => {
-		this.setState({
-			showModalOpen: true
-		})
-	}
+
 
 	closeModal = () => {
 		this.setState({
 			editModalOpen: false,
-			createModalOpen: false,
-			showModalOpen: false
+			modalOpen: false,
+			// showModalOpen: false
 		});
 	};
 
@@ -178,19 +178,27 @@ class App extends React.Component{
 		return(
 	    	<div className="App">
 	    		{
-	    			this.state.loggedInUser
+	    			this.state.loggedInUser	
 	    			?
 	    			<SearchAddBuildingForm 
 	    				searchForAddress={this.searchForAddress}
-	    				open={this.state.createModalOpen}
+	    				open={this.state.modalOpen}
 	    				addBuilding={this.addBuilding}
 	    				handleCreateChange={this.handleCreateChange}
 	    			 	closeModal={this.closeModal} 
 	    			 	address={this.state.newAddress.address}
 	    			 	addUser={this.addUser}
+	    			 	logout={this.logout}
 	    			/>
+	    			// <PostContainer /> 
 	    			:
-	    			<LoginRegisterForm login={this.login} register={this.register} />
+	    			<LoginRegisterForm 
+	    			login={this.login} 
+	    			register={this.register} 
+	    			open={this.state.modalOpen}
+	    			closeModal={this.state.closeModal}
+	    			/>
+// 
 	    		}
 	    	</div>
 	  	);
