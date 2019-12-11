@@ -142,7 +142,9 @@ class SearchAddBuildingForm extends React.Component {
 					</small>
 				)}
 			</Modal>
-			<PostContainer/>
+			<PostContainer
+				usersBuildingId={this.props.usersBuildingId}
+			/>
 			</div>
 		);
 	}

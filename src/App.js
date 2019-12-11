@@ -17,7 +17,7 @@ class App extends React.Component{
 				address: ''
 			}, 
 			foundAddress: null,
-			usersBuilding: null
+			usersBuildingId: null
 		}
 	}
 
@@ -32,11 +32,13 @@ class App extends React.Component{
 		})
 		const parsedLoginResponse = await response.json()
 		console.log(parsedLoginResponse);
+		console.log(parsedLoginResponse.data[0].building);
 	
 		if (response.status === 201) {
 			this.setState({
 				loggedIn: true,
-				loggedInUser: parsedLoginResponse.data
+				loggedInUser: parsedLoginResponse.data,
+				usersBuildingId: parsedLoginResponse.data[0].building
 			})	
 		// 	console.log(parsedLoginResponse)
 		// } else{
@@ -44,6 +46,8 @@ class App extends React.Component{
 		// 	console.log(parsedLoginResponse)
 			
 		}
+
+		// find this user's building and save its id in this.state.usersBuildingId
 	}
 	register = async (registerInfo) => {
 		const response = await fetch(process.env.REACT_APP_API_URL + '/users/register', {
@@ -86,16 +90,13 @@ class App extends React.Component{
 				}
 			);
 			console.log(createdAddressResponse)
-				const parsedResponse = await createdAddressResponse.json();
-				console.log(parsedResponse, 'this is the response')
-				this.setState({
-					addresses: [
-					...this.state.addresses,
-					parsedResponse.data
-					]
-				})
-				this.closeModal();
-
+			const parsedResponse = await createdAddressResponse.json();
+			console.log(parsedResponse, 'this is the response')
+			this.setState({
+				usersBuildingId: parsedResponse.user.building._id
+			})
+			this.closeModal();
+			console.log(this.state.usersBuildingId)
 			
 		} catch(err){
 			console.log(err)
@@ -193,13 +194,16 @@ class App extends React.Component{
 	    			 	address={this.state.newAddress.address}
 	    			 	addUser={this.addUser}
 	    			 	logout={this.logout}
+	    			 	loggedInUser={this.state.loggedInUser}
+	    			 	usersBuildingId={this.state.usersBuildingId}
 	    			/>
 	    			:
 	    			<LoginRegisterForm 
-	    			login={this.login} 
-	    			register={this.register} 
-	    			open={this.state.modalOpen}
-	    			closeModal={this.state.closeModal}
+	    				login={this.login} 
+	    				register={this.register} 
+	    				open={this.state.modalOpen}
+	    				closeModal={this.state.closeModal}
+
 	    			/>
 // 
 	    		}

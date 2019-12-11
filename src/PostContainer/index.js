@@ -36,7 +36,8 @@ class PostContainer extends React.Component{
 // Get all posts from one building address   -----------------------
   getPosts = async () => {
     try {
-      const posts = await fetch(process.env.REACT_APP_API_URL + `/posts/${this.state.foundAddress._id}`,
+
+      const posts = await fetch(process.env.REACT_APP_API_URL + '/posts/' + this.props.usersBuildingId,
         {
           method:'GET',
           credentials: 'include'
@@ -52,10 +53,11 @@ class PostContainer extends React.Component{
 
  // Add a post --------------------------
   addPost = async (e) => { 
+    // console.log("trying to add post, here is props ", this.);
     e.preventDefault()
     try{
 
-      const createdPost = await fetch(process.env.REACT_APP_API_URL +   `/posts/${this.state.foundAddress._id}`, 
+      const createdPost = await fetch(process.env.REACT_APP_API_URL +   '/posts/' + this.props.usersBuildingId, 
       {
         method: 'POST',
         credentials: 'include',
@@ -70,7 +72,7 @@ class PostContainer extends React.Component{
       this.setState({
         posts: [
         ...this.state.posts, 
-        parsedResponse.data
+          parsedResponse.data
         ]
       })
     }

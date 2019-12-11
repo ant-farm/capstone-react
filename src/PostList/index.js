@@ -4,6 +4,7 @@ import '../index.css'
 
 function PostList(props){
 	const posts = props.posts.map((post) => {
+		console.log(post)
 		return(
 			<Card key={post.id} className='postList'>
 				<Image src={post.image} wrapped ui={false} />
