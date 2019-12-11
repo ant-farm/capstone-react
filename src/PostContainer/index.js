@@ -13,6 +13,8 @@ class PostContainer extends React.Component{
     this.state = {
       posts: [],
       postId: '',
+      loggedInUser: this.props.loggedInUser,
+      usersBuildingId: this.props.usersBuildingId,
       postToShow: {
         text: ''
       },
@@ -36,13 +38,18 @@ class PostContainer extends React.Component{
     console.log(this.props.usersBuildingId);
     try {
 
-      const posts = await fetch(process.env.REACT_APP_API_URL + '/posts/' + this.props.usersBuildingId,
+      const posts = await fetch(process.env.REACT_APP_API_URL + '/posts/' + this.state.usersBuildingId,
         {
           method:'GET',
           credentials: 'include'
         });
     
       const parsedPosts = await posts.json();
+      console.log("response in getPosts");
+      console.log(parsedPosts);
+      this.setState({
+        posts: parsedPosts
+      })
 
       console.log(parsedPosts);
     } catch(err) {
@@ -86,24 +93,32 @@ class PostContainer extends React.Component{
 
   // Delete Post ----------------------
   deletePost = async (id) => {
-    const deletePostResponse = await fetch(process.env.REACT_APP_API_URL + '/posts/' + id, 
-    {
-      method: 'DELETE',
-      credentials: 'include'
-    })
-    const deletePostParsed = await deletePostResponse.json()
-    console.log(deletePostParsed)
-    this.setState({
-      
-      posts: this.state.posts.filter((post) => post.id !== id)
-    })
+    try {
+          const deletePostResponse = await fetch(process.env.REACT_APP_API_URL + '/posts/' + id, 
+        {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+        const deletePostParsed = await deletePostResponse.json()
+        console.log(deletePostParsed)
+        this.setState({
+          
+          posts: this.state.posts.filter((post) => post._id !== id)
+        })
 
-  }
+      }
+
+     catch(err){
+      console.log(err)
+    }
+    }
 
   // Edit post ---------------------------------------
   editPost = (id) => {
 
+
       const postToEdit = this.state.posts.find(post => post.id === id)
+      console.log("postToEdit>>>> ",postToEdit);
       this.setState({
         editModalIsOpen: true,
         postToEdit: postToEdit
@@ -136,10 +151,11 @@ class PostContainer extends React.Component{
   updatePost = async (e) => {
     e.preventDefault();
     const body = {
-      text: this.state.postToEdit
+      text: this.state.postToEdit.text
     }
+    console.log('this is state in updatePost', this.state);
     try {
-      const url = process.env.REACT_APP_API_URL + '/posts/' + this.state.postToEdit.id
+      const url = process.env.REACT_APP_API_URL + '/posts/' + this.state.postToEdit._id
       const updateResponse = await fetch(url, 
       {
         method: 'PUT',
@@ -150,17 +166,22 @@ class PostContainer extends React.Component{
         }
       });
       const updateResponseParsed = await updateResponse.json()
+      console.log('this is the update response', updateResponseParsed)
       const newPostArrayWithUpdate = this.state.posts.map((post) => {
+      
 
-        if(post.id === updateResponseParsed.data.id){
-          post = updateResponseParsed.data
+      console.log('this is post', post);
+
+        if(post._id === updateResponseParsed._id){
+          post = updateResponseParsed
         } 
         return post
       })
-      
+      console.log('this is newPostArrayWithUpdate-----------', newPostArrayWithUpdate)
       this.setState({
         posts: newPostArrayWithUpdate
       })
+
       this.closeModal()
     } catch(err){
       console.log(err);
@@ -231,10 +252,16 @@ class PostContainer extends React.Component{
 
             <Grid.Column >
 
-             <NewPostForm addPost={this.addPost}/>
+             <NewPostForm 
+             addPost={this.addPost}
+             loggedInUser={this.state.loggedInUser}
+             />
 
             </Grid.Column>
-            
+            <Grid.Column>
+            <Button size='tiny' color='blue' onClick={() => this.props.logout()}>Log out</Button>
+            </Grid.Column>
+
               <EditPostModal
               open={this.state.editModalIsOpen}
               updatePost={this.updatePost}

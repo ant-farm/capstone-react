@@ -31,6 +31,7 @@ class App extends React.Component{
 			}
 		})
 		const parsedLoginResponse = await response.json()
+		console.log("\n\nThis is info from parsedLoginResponse")
 		console.log(parsedLoginResponse);
 		console.log(parsedLoginResponse.data[0].building);
 	
@@ -40,6 +41,7 @@ class App extends React.Component{
 				loggedInUser: parsedLoginResponse.data,
 				usersBuildingId: parsedLoginResponse.data[0].building
 			})	
+			console.log('this is the state after login ', this.state)
 		// 	console.log(parsedLoginResponse)
 		// } else{
 		// 	console.log("parsedLoginResponse in else in login");
@@ -59,7 +61,7 @@ class App extends React.Component{
 			}
 		})
 		const parsedRegisterResponse = await response.json()
-		console.log("parsedRegisterResponse")
+		console.log("parsedRegisterResponse -- register")
 		console.log(parsedRegisterResponse)
 		if(parsedRegisterResponse.status.code === 201){
 			this.setState({
@@ -134,6 +136,8 @@ class App extends React.Component{
 				foundAddress: parsedResponse
 			})
 
+			this.addUser()
+
 		} catch(err){
 			console.log(err)
 		}
@@ -143,6 +147,7 @@ class App extends React.Component{
 	addUser = async () => {
 
 		try {
+
 			const addingUser = await fetch(
 				process.env.REACT_APP_API_URL + `/users/${this.state.foundAddress._id}`,
 				{
@@ -150,14 +155,17 @@ class App extends React.Component{
 					credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json'
+					}
 				}
-			})
+			)
 			const parsedResponse = await addingUser.json()
 			console.log(parsedResponse)
 			this.setState({
-				usersBuilding: parsedResponse.data
+				usersBuildingId: parsedResponse._id
 			})
 
+			this.closeModal();
+			console.log(this.state.usersBuildingId)
 		} catch(err){
 			console.log(err)
 		}
@@ -165,7 +173,15 @@ class App extends React.Component{
 
 	logout = async (loginInfo) => {
 		this.setState({
-			loggedIn: false
+			addresses: [],
+			loggedIn: false,
+			loggedInUser: null,
+			modalOpen:false,
+			newAddress: {
+				address: ''
+			}, 
+			foundAddress: null,
+			usersBuildingId: null
 		})
 	}
 
@@ -192,7 +208,6 @@ class App extends React.Component{
 	    				handleCreateChange={this.handleCreateChange}
 	    			 	closeModal={this.closeModal} 
 	    			 	address={this.state.newAddress.address}
-	    			 	addUser={this.addUser}
 	    			 	logout={this.logout}
 	    			 	loggedInUser={this.state.loggedInUser}
 	    			 	usersBuildingId={this.state.usersBuildingId}
@@ -203,6 +218,7 @@ class App extends React.Component{
 	    				register={this.register} 
 	    				open={this.state.modalOpen}
 	    				closeModal={this.state.closeModal}
+	    				usersBuildingId={this.state.usersBuildingId}
 
 	    			/>
 // 

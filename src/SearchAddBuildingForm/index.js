@@ -14,14 +14,23 @@ import PostContainer from '../PostContainer'
 import PostList from '../PostList'
 
 class SearchAddBuildingForm extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		console.log('this is props -------', props);
+		super(props);
 
 		this.state = {
 			propertyAddress: "",
-			action: "search"
+			action: "search",
+			loggedInUser: this.props.loggedInUser
+
 		};
 	}
+
+	// componentDidMount = () => {
+	// 	console.log("this.state -- SearchAddBuildingForm");
+	// 	console.log(this.state);
+	// }
+
 
 	searchAdd = () => {
 		if (this.state.action === "search") {
@@ -123,7 +132,7 @@ class SearchAddBuildingForm extends React.Component {
 									/>
 								</Modal.Actions>
 							</Form>
-							<Button color="blue" onClick={this.props.addUser}>
+							<Button color="blue" onClick={this.props.searchForAddress}>
 								Add yourself
 							</Button>
 						</Modal.Description>
@@ -144,6 +153,10 @@ class SearchAddBuildingForm extends React.Component {
 			</Modal>
 			<PostContainer
 				usersBuildingId={this.props.usersBuildingId}
+				logout={this.props.logout}
+				loggedInUser={this.state.loggedInUser}
+				
+
 			/>
 			</div>
 		);

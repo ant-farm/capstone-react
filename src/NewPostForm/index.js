@@ -4,10 +4,11 @@ import '../index.css'
 
 
 class CreatePost extends Component {
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 		this.state = {
-			text: ''
+			text: '',
+			loggedInUser: this.props.loggedInUser.building
 		}
 	}
 
