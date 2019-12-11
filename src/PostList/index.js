@@ -3,6 +3,7 @@ import { Card, Button, Image, Rating } from 'semantic-ui-react';
 import '../index.css'
 
 function PostList(props){
+	console.log(props);
 	const posts = props.posts.map((post) => {
 		console.log(post)
 		return(
@@ -11,9 +12,9 @@ function PostList(props){
 				<Card.Content>
 					<Card.Header>{post.title}</Card.Header>
 					<Card.Meta>
-						<span className='user'>{post.user.username}</span><br/>
+						<span className='user'>{post.users}</span><br/>
 					</Card.Meta>
-					<Card.Description>{post.description}</Card.Description>
+					<Card.Description>{post.text}</Card.Description>
 					<Card.Description><a href={post.image}>image</a></Card.Description>
 					<Rating icon='heart' defaultRating={0} maxRating={1} />
 				</Card.Content>

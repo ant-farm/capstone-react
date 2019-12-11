@@ -20,9 +20,6 @@ class PostContainer extends React.Component{
       foundAddress: null,
 
       commentModalIsOpen: false,
-      newPost: {
-        text:''
-      },
       postToEdit: {
         text: ''
       }
@@ -35,6 +32,8 @@ class PostContainer extends React.Component{
 
 // Get all posts from one building address   -----------------------
   getPosts = async () => {
+    console.log("here is id we are trying to use in getPosts");
+    console.log(this.props.usersBuildingId);
     try {
 
       const posts = await fetch(process.env.REACT_APP_API_URL + '/posts/' + this.props.usersBuildingId,
@@ -52,27 +51,29 @@ class PostContainer extends React.Component{
   }
 
  // Add a post --------------------------
-  addPost = async (e) => { 
+  addPost = async (newPost) => { 
     // console.log("trying to add post, here is props ", this.);
-    e.preventDefault()
+    console.log("here is the post we are trying to add");
+    console.log(newPost);
     try{
 
       const createdPost = await fetch(process.env.REACT_APP_API_URL +   '/posts/' + this.props.usersBuildingId, 
       {
         method: 'POST',
         credentials: 'include',
-        body: JSON.stringify(this.state.newPost),
+        body: JSON.stringify(newPost),
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
       const parsedResponse = await createdPost.json()
+      console.log("here's what we got back from the server after adding it");
       console.log(parsedResponse)
       this.setState({
         posts: [
-        ...this.state.posts, 
-          parsedResponse.data
+          ...this.state.posts, 
+          parsedResponse
         ]
       })
     }
