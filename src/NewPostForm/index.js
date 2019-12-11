@@ -8,7 +8,8 @@ class CreatePost extends Component {
 		super(props)
 		this.state = {
 			text: '',
-			loggedInUser: this.props.loggedInUser.building
+			loggedInUser: this.props.loggedInUser.building,
+			show: false
 		}
 	}
 
@@ -18,8 +19,9 @@ class CreatePost extends Component {
 	render(){
 		return(
 			<div className='postForm'>
+			
 			<Segment>
-				<h1>Create a Post</h1>
+				<h3>Create a Post</h3>
 				<Form size='tiny' onSubmit={(e) => {e.preventDefault(); this.props.addPost(this.state)}}>
 					<Label>Text: </Label>
 					<Form.Input type='text' name='text' value={this.state.text} onChange={this.handleChange}/>

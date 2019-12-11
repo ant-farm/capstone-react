@@ -62,7 +62,7 @@ class LoginRegisterForm extends React.Component{
 	render() {
     return(
 
-      <div className='background-image' style={{backgroundColor: 'teal'}}> 
+      <div className='background-image' style={{backgroundColor: ''}}> 
   
       <div className="LoginRegisterForm">
     
@@ -71,7 +71,7 @@ class LoginRegisterForm extends React.Component{
             <Segment stacked>
        
             <Header as='h2'  textAlign='center' >
-               Friendly
+               Welcome to Friendly
             </Header>
 
         <Form size='large' onSubmit={this.handleSubmit}>

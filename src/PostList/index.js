@@ -4,6 +4,7 @@ import '../index.css'
 
 function PostList(props){
 	console.log(" this is props", props);
+	// let newDate = new Date()
 	const posts = props.posts.map((post) => {
 		console.log('this is the post -----', post)
 		return(
@@ -12,16 +13,16 @@ function PostList(props){
 				<Card.Content>
 					<Card.Header>{post.title}</Card.Header>
 					<Card.Meta>
-						<span className='user'>{post.users}</span><br/>
+						<span>Message</span><br/>
 					</Card.Meta>
 					<Card.Description>{post.text}</Card.Description>
 					
 				</Card.Content>
 				<Card.Content extra>
 					<span>{post.created}</span>
-					<Button className='postButtons'color='red' onClick={() => props.deletePost(post._id)}>Delete Post</Button>
-					<Button color='yellow' onClick={() => props.editPost(post.id)}>Edit Post</Button>
-					<Button color='olive' onClick={() => props.openCommentModal(post.id)}>Veiw comments</Button>
+					<Button size='tiny' className='postButtons'color='red' onClick={() => props.deletePost(post._id)}>Delete Post</Button>
+					<Button size='tiny' color='yellow' onClick={() => props.editPost(post.id)}>Edit Post</Button>
+					
 				</Card.Content>
 			</Card>	
 		)

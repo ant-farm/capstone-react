@@ -215,6 +215,14 @@ class PostContainer extends React.Component{
 
   render(){
     return (
+      <div>
+      <nav>
+
+     
+     <Button variant='contained' style={{float: 'right'}, {margin: '14px 14px'}} size='tiny' color='blue' onClick={() => this.props.logout()}>Log out</Button>
+     </nav>
+      <div>
+
       <Grid columns={3} 
         divided textAlign='center' 
         style={{ height: '100%' }} 
@@ -222,6 +230,7 @@ class PostContainer extends React.Component{
         stackable
         >
           <Grid.Row>
+          
             <Grid.Column>
 
               <PostList 
@@ -229,8 +238,7 @@ class PostContainer extends React.Component{
               editPost={this.editPost}
               deletePost={this.deletePost}
               openCommentModal={this.openCommentModal}
-              // getComments={this.getComments}
-              //maybe have just modal open on button click and make fetch call when state of modalIsOpen changes ttrue?
+              
             />
             </Grid.Column>
 
@@ -246,21 +254,24 @@ class PostContainer extends React.Component{
               closeCommentModal={this.closeCommentModal}
               />
             </Grid.Column>
+
             :
             null
             }
 
             <Grid.Column >
+            
+          
 
              <NewPostForm 
              addPost={this.addPost}
              loggedInUser={this.state.loggedInUser}
              />
+           
+              
 
             </Grid.Column>
-            <Grid.Column>
-            <Button size='tiny' color='blue' onClick={() => this.props.logout()}>Log out</Button>
-            </Grid.Column>
+           
 
               <EditPostModal
               open={this.state.editModalIsOpen}
@@ -271,6 +282,8 @@ class PostContainer extends React.Component{
               />
           </Grid.Row>
         </Grid>
+        </div>
+        </div>
     )
   }
 }
