@@ -17,7 +17,8 @@ Semantic-UI
 
 ### Installation Steps
 Clone the react as well as the express applications on your local computer
-After you clone npm install 
+After you clone npm install dependencies which include:
+cors, dotenv, body-parser, bcrypt, express, express-session, method-override, mongoose, 
 
 ### User Stories
 Welcome to X. This site focuses on the internal communication that happens between condo associations.
@@ -29,3 +30,6 @@ The user will come to the site to register their information as well as provide 
 ![alt text](./images/interacting-forum.png)
 ![alt text](./images/login:register.png)
 ![alt text](./images/Search:Add.png)
+
+### Future features
+Future features include expanding the experience to include commenting on each individual post, as well as sending direct email to a specific user. 
